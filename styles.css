@@ -1,0 +1,67 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Big Shoulders Text', cursive;
+}
+
+h1 {
+    text-align: center;
+    color: rgb(161, 17, 17);
+    font-size: 3em;
+    margin: 10px 0px 60px 0px;
+}
+
+
+#game-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+#player-card, #player-2-card {
+        border:1px solid grey;
+        box-shadow: 3px 5px 10px 12px rgb(105, 105, 170);
+        width: 40vw;
+        display: flex;
+        flex-direction: column;
+}
+
+#player-2-card {
+    border:1px solid blue;
+    width: 40vw;
+}
+
+.card-wrapper {
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-row-gap: 20px;
+
+    width: 90%;
+    height: 100%;
+    background-color: rgb(173, 54, 54);
+}
+
+.card {
+    border: 1px solid black;
+    width: 95%;
+
+}
+
+.row {
+    width: 100%;
+    height: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-column-gap: 0px;
+}
+
+.cell {
+    width: 1fr;
+    height: 1fr;
+    border: 1px solid blue;
+    padding: 6px;
+}
