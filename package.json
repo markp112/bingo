@@ -1,0 +1,12 @@
+{
+  "name": "bingo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/markp112/bingo.git",
+  "author": "Mark Phillips <mark.phillips1965@googlemail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build-css": "sass .:.",
+    "build": "yarn build-css"
+  }
+}
