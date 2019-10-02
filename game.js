@@ -58,28 +58,16 @@ const generateBlanks = (bingoCard) => {
     }
 }
 
-const populateNumbers = (card) => {
-    card.forEach((indexRow, row) => {
-        row.forEach(indexCol, cell => {
-            if(cell.isBlank){
-
-            }
-        })
-    })
-}
-
-
-
-const fillCard = (card) => {
-
-    generateBlanks(card);
-    populateNumbers(card);
-}
-
-
 //Get the column to put the number in 
 const getColumnRef =(uniqueNumber, indexCol) => {
     return uniqueNumber - indexCol * 10;
+}
+
+const getNotPickedNumbers = (array,index) => {
+    const row = index * 10;
+    let filteredArray = array[row].filter(cell => cell.isPicked === false);
+    console.log('filteredArray :', filteredArray);
+    return filteredArray;
 }
 
 // generate a random number between min and max
@@ -91,23 +79,56 @@ const getUniqueRandom = (indexRow, indexCol) => {
     console.log("TCL: getUniqueRandom -> indexCol", indexCol)
     console.log("TCL: getUniqueRandom -> indexRow", indexRow)
 
-    let isUnique = false;
     let uniqueNumber = 0;
+    let arrayFiltered = getNotPickedNumbers(bingoNumbers, indexRow);
 
-    while ((!isUnique) || (indexCol === 0 && uniqueNumber === 0)){
+   
 
-        uniqueNumber = getRandom(indexCol * 10, (indexCol * 10) + 9);
+        // uniqueNumber = getRandom(indexCol * 10, (indexCol * 10) + 9);
         
-        let selectedNumberCol = getColumnRef(uniqueNumber, indexCol);
-
-        if(!bingoNumbers[indexCol][selectedNumberCol].isPicked) isUnique = true;
-        console.log("TCL: getUniqueRandom -> bingoNumbers[indexCol][selectedNumberCol].isPicked", bingoNumbers[indexCol][selectedNumberCol].isPicked)
+        let indexToUse = getRandom (0, arrayFiltered.length)
+       
+        //let selectedNumberCol = getColumnRef(uniqueNumber, indexCol);
+        uniqueNumber = arrayFiltered[indexToUse];
+        
+        // console.log("TCL: getUniqueRandom -> bingoNumbers[indexCol][selectedNumberCol].isPicked", bingoNumbers[indexCol][selectedNumberCol].isPicked)
     
-        console.log("TCL: getUniqueRandom -> bingoNumbers[indexCol][uniqueNumber] and uniqueNumber =", bingoNumbers[indexCol][selectedNumberCol],uniqueNumber);
+        // console.log("TCL: getUniqueRandom -> bingoNumbers[indexCol][uniqueNumber] and uniqueNumber =", bingoNumbers[indexCol][selectedNumberCol],uniqueNumber);
 
-    }
+    
     return uniqueNumber;
 }
+
+
+
+const populateNumbers = (card) => {
+    card.forEach((row, indexRow) => {
+    console.log('row :', row, indexRow);
+        
+        row.forEach((cell, indexCol) => {
+            if(!cell.isBlank){
+                cell.value = getUniqueRandom(indexRow, indexCol);
+                console.log('cell.value :', cell.value);
+                let selectedNumberCol = getColumnRef(cell.value, indexCol);
+                console.log('selectedNumberCol :', selectedNumberCol);
+
+                //bingoNumbers[indexCol][selectedNumberCol].isPicked = true;
+            }
+            
+        })
+    })
+}
+
+
+
+const fillCard = (card) => {
+
+    generateBlanks(card);
+    console.log(card)
+    populateNumbers(card);
+}
+
+
 
 
 // get unique number for the cell that has not been used before
@@ -172,7 +193,7 @@ $(document).ready(()=>{
     bingoNumbers = initBingoNumbers();
     console.log("TCL: bingoNumbers", bingoNumbers)
 
-fillCard(playerCard);
+    fillCard(playerCard);
 
     // initCard("#player-card .card-wrapper .card .row");
     console.log(bingoNumbers)
