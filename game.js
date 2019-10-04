@@ -65,12 +65,12 @@ const getColumnRef = (uniqueNumber, indexCol) => {
     return uniqueNumber - indexCol * 10;
 };
 
-// filter an array of Bingo Numbers for those that have not been picked 
-const getNotPickedNumbers = (array, index) => {
-    let filteredArray = array[index].filter(cell => cell.isPicked === false);
-    console.log("filteredArray :", filteredArray);
-    return filteredArray;
-};
+// // filter an array of Bingo Numbers for those that have not been picked 
+// const getNotPickedNumbers = (array, index) => {
+//     let filteredArray = array[index].filter(cell => cell.isPicked === false);
+//     console.log("filteredArray :", filteredArray);
+//     return filteredArray;
+// };
 
 
 
