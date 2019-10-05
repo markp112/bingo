@@ -70,29 +70,8 @@ const getColumnRef = (uniqueNumber, indexCol) => {
     return uniqueNumber - indexCol * 10;
 };
 
-// // filter an array of Bingo Numbers for those that have not been picked 
-// const getNotPickedNumbers = (array, index) => {
-//     let filteredArray = array[index].filter(cell => cell.isPicked === false);
-//     console.log("filteredArray :", filteredArray);
-//     return filteredArray;
-// };
-
-
-
-// Return a unique randomm number based on the available numbers
-// from the current row matrix of bingo numbers
-// const getUniqueRandom = (indexRow, indexCol) => {
-//     let uniqueNumber = 0;
-//     // filter the array for only non picked values
-//     let arrayFiltered = getNotPickedNumbers(bingoNumbers, indexCol);
-//     // randomise the index to select the value from the row of numbers in the filtered array
-//     let indexToUse = getRandom(0, arrayFiltered.length);
-//     // index to use corresponds to a random number between 1 and 9 which is used to select the number from the current row
-//     // the number should be unique as the array is filtered on non picked numbers
-//     uniqueNumber = arrayFiltered[indexToUse].value;
-//     return uniqueNumber;
-// };
-
+// getUnique random number - return a random number between minRange and MaxRange
+// that has not inlcuded in the pickedNumbers array
 const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
     
     let rand = getRandom(minRange, maxRange);
@@ -102,15 +81,15 @@ const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
     return rand;
 }
 
-const populateNumbers = (card, maxRows, maxCols) => {
-    let selectedNumberCol;
+// createPlayerNumbers fill the card with numbers and blank cells based on the maximum rows and columns
+const createPlayerNumbers = (card, maxRows, maxCols) => {
     let pickedNumbers = [];
 
     for (let indexCol = 0; indexCol < maxCols; indexCol++){
         // generate the blanks in each column first col has 9 rest have 8
-        const blanks = indexCol === 0 ? 9 : 8;
+        const blanks = indexCol === 0 ? maxRows : (maxRows - 1);
         const blankCells = createBlanks(blanks);
-        console.log("TCL: populateNumbers -> blankCells", blankCells)
+        
         pickedNumbers = [];
         for (let indexRow = 0; indexRow < maxRows; indexRow++) {
             // if the current cell is defined as blank set flag to true
@@ -125,7 +104,6 @@ const populateNumbers = (card, maxRows, maxCols) => {
                 pickedNumbers.push(rand);
                 card[indexRow][indexCol].value = rand;
                 card[indexRow][indexCol].isBlank = false;
-                
             }
         }
     }    
@@ -133,24 +111,92 @@ const populateNumbers = (card, maxRows, maxCols) => {
 
 const fillCard = (card, rows, columns) => {
     try {
-        populateNumbers(card, rows, columns);
+        createPlayerNumbers(card, rows, columns);
         return true;    
     } catch (error) {
         throw new Error(`Failed to populateNumbers --> ${error}`);
     }
 };
 
+const putNumbersOnCard = (playerCard) => {
+    
+    // get all the cells for the cards that have been put on the screen
+    const c2 = document.querySelectorAll('.row .cell');
+
+    let colIndex = 0;
+    c2.forEach((cell, index) =>{
+        const rowIndex = parseInt(index / 9);
+        if(!playerCard[rowIndex][colIndex].isBlank) {
+            cell.innerHTML +=(playerCard[rowIndex][colIndex].value);
+        } else {
+            cell.classList.add("blank-cell");
+        }
+        const id = `r${rowIndex}c${colIndex}`
+        cell.setAttribute("id",id);
+        cell.addEventListener('click', () => {markCard(id)});
+        if( colIndex < 8)  {colIndex++}  else{ colIndex = 0};
+    });
+}
+
+
+// display the players card on the screen:
+// first get a reference to the card contained in the html partials folder
+// based on the data in the array playerCard transcribe this to the Html card
+// inserting the numbber where a number exists and blank where the cell is blank
+//
+const displayCard = (playerCard, numberOfCards) => {
+
+    const importedCard = document.querySelector('#player-card').import;
+    const card = importedCard.querySelector('.bingo-card');
+    const insertionPoint = document.querySelector("#game-wrapper");
+    
+    insertionPoint.appendChild(card);
+
+    putNumbersOnCard(playerCard);
+}
+
+const getCellRef = (startChar,endChar, cellRef) => {
+    const startPos = cellRef.indexOf(startChar) + 1;
+    const endPos = endChar === "" ? cellRef.length : CellRef.indexOf(endChar);
+    return cellRef.substring(startPos,endPos);
+}
+
+const markCard = (id) => {
+    
+    if (typeof id === "string") {
+        
+        const cell = document.querySelector('#' + id + ' span');
+
+        const row = getCellRef('r','c',id);
+        const col = getCellRef('c','');
+        
+        cell.classList.add('circle2')
+    }
+}
+    
+
+    
+
+
 
 $(document).ready(() => {
-    bingoNumbers = initBingoNumbers();
-    console.log("TCL: bingoNumbers", bingoNumbers);
-    let playerCard = initCard();
-    console.log('playerCard :', playerCard);
-    let rows = 18;
-    let cols = 9;
-    
-    // setup the 
-    fillCard(playerCard, rows, cols);
-
-    
+        
+    try {  
+        bingoNumbers = initBingoNumbers();
+        
+        let playerCard = initCard();
+        
+        let numberOfCards = 1;
+        let rows = numberOfCards * 3;
+        const cols = 9;
+        
+        // setup the 
+        if( fillCard(playerCard, rows, cols)){
+            displayCard(playerCard, numberOfCards);
+        };
+        
+        
+        } catch (error) {
+            console.log(error);
+        };
 });

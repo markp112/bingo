@@ -53,6 +53,18 @@
 .bingo-card .row .cell .circle {
   border-radius: 50%;
   background-color: blue;
+  opacity: 0.0;
+  z-index: 5;
+  width: 85%;
+  height: 85%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+.bingo-card .row .cell .circle2 {
+  border-radius: 50%;
+  background-color: blue;
   opacity: 0.3;
   z-index: 5;
   width: 85%;
@@ -60,5 +72,13 @@
   position: absolute;
   top: 2px;
   left: 2px;
+}
+
+.bingo-card .row:hover {
+  cursor: crosshair;
+}
+
+.bingo-card .row .blank-cell {
+  background-color: palevioletred;
 }
 /*# sourceMappingURL=main.css.map */

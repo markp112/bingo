@@ -28,15 +28,36 @@
           .circle {
             border-radius: 50%;
             background-color: blue;
-            opacity: 0.3;
+            opacity: 0.0;
             z-index: 5;
             width: 85%;
             height: 85%;
             position: absolute;;
             top: 2px;
             left: 2px;
+
+            
           }
+          
+  .circle2 {
+    border-radius: 50%;
+    background-color: blue;
+    opacity: 0.3;
+    z-index: 5;
+    width: 85%;
+    height: 85%;
+    position: absolute;;
+    top: 2px;
+    left: 2px;
+   
+  }
+    
+      }
+      &:hover {
+        cursor: crosshair;
+      }
+      .blank-cell {
+        background-color: palevioletred;
       }
     }
   }
-
