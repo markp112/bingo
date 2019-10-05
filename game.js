@@ -22,6 +22,7 @@ const initBingoNumbers = () => {
     return arrayToInitialise;
 };
 
+// initialises the players card
 const initCard = () => {
     let card = [];
     for (let indexRow = 0; indexRow < 18; indexRow++) {
@@ -46,13 +47,17 @@ const getRandom = (min, max) => {
 };
 
 
-// for each row in the players card generate 4 blank squares
+// for each column in the players card generate numBlanks blank squares
+// input: numBlanks - number of blanks to be created
+// output: array of numbers between 0 and 18, generated randomly which represent the cells
+// on the players card that will be blank
 const createBlanks = numBlanks => {
     let blanks = [];
     let isComplete = false;
 
     while (!isComplete) {
         let random = getRandom(0,18);
+        // only add numbers not already in the array
         if(!blanks.includes(random)) blanks.push(random);
         if(blanks.length === numBlanks) isComplete = true;
     }
@@ -102,13 +107,13 @@ const populateNumbers = (card, maxRows, maxCols) => {
     let pickedNumbers = [];
 
     for (let indexCol = 0; indexCol < maxCols; indexCol++){
-          // generate the blanks in each column first col has 9 rest have 8
-        let blanks = indexCol === 0 ? 9 : 8;
-        let blankCells = createBlanks(blanks);
+        // generate the blanks in each column first col has 9 rest have 8
+        const blanks = indexCol === 0 ? 9 : 8;
+        const blankCells = createBlanks(blanks);
         console.log("TCL: populateNumbers -> blankCells", blankCells)
         pickedNumbers = [];
         for (let indexRow = 0; indexRow < maxRows; indexRow++) {
-            // check if cell is defined as blank
+            // if the current cell is defined as blank set flag to true
             if (blankCells.includes(indexRow)) {
                 
                 card[indexRow][indexCol].isBlank = true;
@@ -127,51 +132,23 @@ const populateNumbers = (card, maxRows, maxCols) => {
 };
 
 const fillCard = (card, rows, columns) => {
-    populateNumbers(card, rows, columns);
-    console.log("TCL: card", card)
-    
+    try {
+        populateNumbers(card, rows, columns);
+        return true;    
+    } catch (error) {
+        throw new Error(`Failed to populateNumbers --> ${error}`);
+    }
 };
 
-// // get unique number for the cell that has not been used before
-// const getNumberForCell = (indexRow, indexCol) => {
-//     let rand = getUniqueRandom(indexRow, indexCol);
-//     return rand;
-// };
-
-//
-const populateCell = (cell, indexRow, indexCol) => {
-    let cellNumber = getNumberForCell(indexRow, indexCol);
-
-    cell.innerText = cellNumber;
-
-    // console.log("TCL: populateCell -> cellNumber", cellNumber, indexCol)
-
-    // console.log("TCL: populateCell -> bingoNumbers[cellNumber]", bingoNumbers[cellNumber])
-    let selectedNumberCol = getColumnRef(cellNumber, indexCol);
-
-    bingoNumbers[indexCol][selectedNumberCol].isPicked = true;
-};
-
-// return all the rows for a player card
-// requires a tag to uniquely id the card to
-// return rows for
-const getRowElements = cardToGet => {
-    let rows = $(cardToGet);
-    return rows;
-};
-
-
-
-const getRow = (rows, index) => {
-    return rows[index];
-};
 
 $(document).ready(() => {
     bingoNumbers = initBingoNumbers();
     console.log("TCL: bingoNumbers", bingoNumbers);
     let playerCard = initCard();
-    let rows = 19;
-    let cols = 10;
+    console.log('playerCard :', playerCard);
+    let rows = 18;
+    let cols = 9;
+    
     // setup the 
     fillCard(playerCard, rows, cols);
 
