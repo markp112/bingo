@@ -6,6 +6,29 @@
   font-family: 'Big Shoulders Text', cursive;
 }
 
+#bingo-caller {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 50px;
+}
+
+#bingo-caller .called-number {
+  border: 1px solid black;
+  height: 60px;
+  width: 60px;
+}
+
 .bingo-card {
   background-color: grey;
   display: -webkit-box;
@@ -19,7 +42,7 @@
       -ms-flex-pack: center;
           justify-content: center;
   width: 100vw;
-  height: 100px;
+  height: 140px;
   row-gap: 5px;
   -webkit-column-gap: 0px;
           column-gap: 0px;
@@ -44,22 +67,11 @@
   position: relative;
   border: 1px solid black;
   background-color: palegoldenrod;
-  padding: 2px;
+  padding: 4px;
   text-align: center;
-  width: 30px;
-  height: 30px;
-}
-
-.bingo-card .row .cell .circle {
-  border-radius: 50%;
-  background-color: blue;
-  opacity: 0.0;
-  z-index: 5;
-  width: 85%;
-  height: 85%;
-  position: absolute;
-  top: 2px;
-  left: 2px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5em;
 }
 
 .bingo-card .row .cell .circle2 {
@@ -80,5 +92,169 @@
 
 .bingo-card .row .blank-cell {
   background-color: palevioletred;
+}
+
+@-webkit-keyframes spincube {
+  from, to {
+    -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  16% {
+    -webkit-transform: rotateY(-90deg);
+  }
+  33% {
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg);
+  }
+  50% {
+    -webkit-transform: rotateY(-180deg) rotateZ(90deg);
+  }
+}
+
+@keyframes spincube {
+  from, to {
+    -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+  16% {
+    -webkit-transform: rotateY(-90deg);
+            transform: rotateY(-90deg);
+  }
+  33% {
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg);
+            transform: rotateY(-90deg) rotateZ(90deg);
+  }
+  50% {
+    -webkit-transform: rotateY(-180deg) rotateZ(90deg);
+            transform: rotateY(-180deg) rotateZ(90deg);
+  }
+  66% {
+    -webkit-transform: rotateY(-270deg) rotateX(90deg);
+            transform: rotateY(-270deg) rotateX(90deg);
+  }
+  83% {
+    -webkit-transform: rotateX(90deg);
+            transform: rotateX(90deg);
+  }
+}
+
+.cubespinner {
+  -webkit-animation-name: spincube;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-iteration-count: 90;
+  -webkit-animation-duration: 4s;
+  animation-name: spincube;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 90;
+  animation-duration: 4s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transform-origin: 60px 60px 0;
+  transform-origin: 60px 60px 0;
+}
+
+.cubespinner div, #the-spinner div {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #ccc;
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-box-shadow: inset 0 0 20px rgba(50, 7, 129, 0.2);
+          box-shadow: inset 0 0 20px rgba(50, 7, 129, 0.2);
+  line-height: 100px;
+  text-align: center;
+  font-size: 90px;
+  border-radius: 50%;
+  font-family: inherit;
+}
+
+.cubespinner .face1, #the-spinner .face1 {
+  -webkit-transform: translateZ(60px);
+  transform: translateZ(60px);
+}
+
+.cubespinner .face2, #the-spinner .face2 {
+  -webkit-transform: rotateY(90deg) translateZ(60px);
+  transform: rotateY(90deg) translateZ(60px);
+}
+
+.cubespinner .face3, #the-spinner .face3 {
+  -webkit-transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
+  transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
+}
+
+.cubespinner .face4, #the-spinner .face4 {
+  -webkit-transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
+  transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
+}
+
+.cubespinner .face5, #the-spinner .face5 {
+  -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
+  transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
+}
+
+.cubespinner .face6, #the-spinner .face6 {
+  -webkit-transform: rotateX(-90deg) translateZ(60px);
+  transform: rotateX(-90deg) translateZ(60px);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Big Shoulders Text', cursive;
+}
+
+h1 {
+  text-align: center;
+  color: #a11111;
+  font-size: 3em;
+  margin: 10px 0px 60px 0px;
+}
+
+#game-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+#player-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-top: 60px;
+}
+
+#player-buttons button {
+  width: 150px;
+  height: 60px;
+  border-radius: 20px;
+  font-size: 2em;
+}
+
+#player-buttons button:hover {
+  background-color: #8a1c1c;
+  cursor: pointer;
+  color: white;
+}
+
+#nick-name {
+  width: 100vw;
+  font-size: 1em;
+  line-height: 2em;
+  margin: 40px auto;
+  text-align: center;
+  border: 1px solid red;
 }
 /*# sourceMappingURL=main.css.map */

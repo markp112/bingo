@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Text&display=swap" rel="stylesheet">
+    <!-- jquery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="./cube-spinner.css">
+    <link rel="import" href="./partials/_card.html" id="player-card">
+    <script src='./data/data.js' async></script>
+    <script src="game.js" async></script>
+    <title>Bingo !!</title>
+</head>
+
+<body>
+    <header>
+        <h1>Bingo</h1>
+    </header>
+
+    <main>
+
+        <section id="bingo-caller">
+            <div class="stage" style="width: 110px; height: 110px;">
+                <div class="" id="the-spinner">
+                    <div class="face1"></div>
+                    <div class="face2"></div>
+                    <div class="face3"></div>
+                    <div class="face4"></div>
+                    <div class="face5"></div>
+                    <div class="face6"></div>
+                </div>
+               
+            </div>
+            
+        </section>
+        <section><p id="nick-name">.</p></section>
+        <section id="game-wrapper"></section>
+        <section id="player-buttons">
+            <button id="start-game">Start</button>
+            <button id="winning-line">Winning Line</button>
+            <button id="bingo">Bingo</button>
+        </section>
+
+    </main>
+</body>
+
+</html>

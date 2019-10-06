@@ -1,70 +1,61 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Big Shoulders Text', cursive;
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-family: 'Big Shoulders Text', cursive;
 }
 
 h1 {
-    text-align: center;
-    color: rgb(161, 17, 17);
-    font-size: 3em;
-    margin: 10px 0px 60px 0px;
+  text-align: center;
+  color: #a11111;
+  font-size: 3em;
+  margin: 10px 0px 60px 0px;
 }
-
 
 #game-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
-#player-card, #player-2-card {
-        border:1px solid grey;
-        box-shadow: 3px 5px 10px 12px rgb(105, 105, 170);
-        width: 40vw;
-        display: flex;
-        flex-direction: column;
+#player-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin-top: 60px;
 }
 
-#player-2-card {
-    border:1px solid blue;
-    width: 40vw;
+#player-buttons button {
+  width: 150px;
+  height: 60px;
+  border-radius: 20px;
+  font-size: 2em;
 }
 
-.card-wrapper {
-    border: 1px solid black;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-row-gap: 20px;
-
-    width: 90%;
-    height: 100%;
-    background-color: rgb(173, 54, 54);
+#player-buttons button:hover {
+  background-color: #8a1c1c;
+  cursor: pointer;
+  color: white;
 }
 
-.card {
-    border: 1px solid black;
-    width: 95%;
-
+#nick-name {
+  width: 100vw;
+  font-size: 1em;
+  line-height: 2em;
+  margin: 40px auto;
+  text-align: center;
 }
-
-.row {
-    width: 100%;
-    height: 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-column-gap: 0px;
-}
-
-.cell {
-    width: 1fr;
-    height: 1fr;
-    border: 1px solid blue;
-    padding: 6px;
-}
-.cell:hover{
-    cursor: wait;
-}
+/*# sourceMappingURL=styles.css.map */
