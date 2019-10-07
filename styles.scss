@@ -41,12 +41,16 @@ h1 {
     }
 }
 
-#nick-name {
-    width: 100vw;
-    font-size: 1em;
-    line-height: 2em;
-    margin: 20px auto;
-    text-align: center;
+#caller-words {
+    height: 30px;
+
+    #nick-name {
+        width: 100vw;
+        font-size: 0.9em;
+        margin: 20px auto;
+        text-align: center;
+    }
+    
 }
 
 @media only screen and (min-width: 480px) {

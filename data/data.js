@@ -1,4 +1,4 @@
-const nickNames =[
+const nickNames = [
 " Kelly’s eye (after one-eyed Australian gangster Ned Kelly), Little Jimmy, First on the board",
 " Little duck, Me and you, Home alone, Peek a boo",
 " One little flea, Cup of tea, Monkey on the tree",
@@ -89,4 +89,18 @@ const nickNames =[
 " Two fat ladies, Wobbly wobbly, All the eights",
 " Nearly there, All but one",
 " Top of the shop, Top of the house, End of the line"
+]
+
+winningLinePrizes = [
+  "trebor",
+  "chocolates",
+  "percyPigs",
+  "mysteryprize"
+]
+
+bingoWinningPrize = [
+  "bottleofWine",
+  "starCashPrize",
+  "suzuki",
+  "hamper"
 ]

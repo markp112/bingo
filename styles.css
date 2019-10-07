@@ -52,10 +52,13 @@ h1 {
   color: white;
 }
 
-#nick-name {
+#caller-words {
+  height: 30px;
+}
+
+#caller-words #nick-name {
   width: 100vw;
-  font-size: 1em;
-  line-height: 2em;
+  font-size: 0.9em;
   margin: 20px auto;
   text-align: center;
 }

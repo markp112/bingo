@@ -1,5 +1,3 @@
-
-
 // main code for the game
 
 
@@ -8,6 +6,7 @@
 let bingoNumbers = [];
 let gameNumbers = [];
 let playerCard = [];
+let numberOfCards = 2;
 
 // this function initialises our bingoNumbers array by filling it with bingoNumber objects numbered 1 to 90 with a the flag set to false
 const initBingoNumbers = () => {
@@ -27,15 +26,15 @@ const initBingoNumbers = () => {
     return arrayToInitialise;
 };
 //fill an array with the numbers 1 to 90
-const initGameNumbers = () =>{
+const initGameNumbers = () => {
     let arrayToInitialise = [];
-    for (let index = 1; index < 91; index++){
+    for (let index = 1; index < 91; index++) {
         const cell = {
             value: index,
             isPicked: false
         };
         arrayToInitialise.push(cell);
-        
+
     }
     return arrayToInitialise;
 }
@@ -75,10 +74,10 @@ const createBlanks = numBlanks => {
     let isComplete = false;
 
     while (!isComplete) {
-        let random = getRandom(0,18);
+        let random = getRandom(0, 18);
         // only add numbers not already in the array
-        if(!blanks.includes(random)) blanks.push(random);
-        if(blanks.length === numBlanks) isComplete = true;
+        if (!blanks.includes(random)) blanks.push(random);
+        if (blanks.length === numBlanks) isComplete = true;
     }
     return blanks;
 }
@@ -93,7 +92,7 @@ const getColumnRef = (uniqueNumber, indexCol) => {
 // that has not inlcuded in the pickedNumbers array
 const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
     let rand = getRandom(minRange, maxRange);
-    while (pickedNumbers.includes(rand)){
+    while (pickedNumbers.includes(rand)) {
         rand = getRandom(minRange, maxRange);
     }
     return rand;
@@ -103,17 +102,17 @@ const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
 const createPlayerNumbers = (card, maxRows, maxCols) => {
     let pickedNumbers = [];
 
-    for (let indexCol = 0; indexCol < maxCols; indexCol++){
+    for (let indexCol = 0; indexCol < maxCols; indexCol++) {
         // generate the blanks in each column first col has 9 rest have 8
         const blanks = indexCol === 0 ? maxRows : (maxRows - 1);
         const blankCells = createBlanks(blanks);
-        
+
         pickedNumbers = [];
         for (let indexRow = 0; indexRow < maxRows; indexRow++) {
             // if the current cell is defined as blank set flag to true
             if (blankCells.includes(indexRow)) {
                 card[indexRow][indexCol].isBlank = true;
-            }else {
+            } else {
                 // get a unique random number.... To do...
                 // for column 0 numbers 0-9 for column 2 10-19 etc
                 // therefore: for col ===0 col * 10 = 0 and col * 10 + 9 = 9
@@ -123,36 +122,44 @@ const createPlayerNumbers = (card, maxRows, maxCols) => {
                 card[indexRow][indexCol].isBlank = false;
             }
         }
-    }    
+    }
 };
 
 const fillCard = (card, rows, columns) => {
     try {
         createPlayerNumbers(card, rows, columns);
-        return true;    
+        return true;
     } catch (error) {
         throw new Error(`Failed to populateNumbers --> ${error}`);
     }
 };
 
 
+
+
 const putNumbersOnScreenCard = (playerCard) => {
-    
+
     // get all the cells for the cards that have been put on the screen
     const c2 = document.querySelectorAll('.row .cell');
 
     let colIndex = 0;
-    c2.forEach((cell, index) =>{
+    c2.forEach((cell, index) => {
         const rowIndex = parseInt(index / 9);
-        if(!playerCard[rowIndex][colIndex].isBlank) {
-            cell.innerHTML +=(playerCard[rowIndex][colIndex].value);
+        if (!playerCard[rowIndex][colIndex].isBlank) {
+            cell.innerHTML += (playerCard[rowIndex][colIndex].value);
         } else {
             cell.classList.add("blank-cell");
         }
         const id = `r${rowIndex}c${colIndex}`
-        cell.setAttribute("id",id);
-        cell.addEventListener('click', () => {markCard(id)});
-        if( colIndex < 8)  {colIndex++}  else{ colIndex = 0};
+        cell.setAttribute("id", id);
+        cell.addEventListener('click', () => {
+            markCard(id)
+        });
+        if (colIndex < 8) {
+            colIndex++
+        } else {
+            colIndex = 0
+        };
     });
 }
 
@@ -169,27 +176,27 @@ const displayCard = (playerCard, numberOfCards) => {
     const insertionPoint = document.querySelector("#game-wrapper");
     //inject card into display then populate with numbers
     insertionPoint.appendChild(card);
-    
+
     putNumbersOnScreenCard(playerCard);
 }
 
-const getCellRef = (startChar,endChar, cellRef) => {
+const getCellRef = (startChar, endChar, cellRef) => {
     const startPos = cellRef.indexOf(startChar) + 1;
     const endPos = endChar === "" ? cellRef.length : cellRef.indexOf(endChar);
-    return cellRef.substring(startPos,endPos);
+    return cellRef.substring(startPos, endPos);
 }
+
 
 const markCard = (id) => {
-    
     if (typeof id === "string") {
         const cell = document.querySelector('#' + id + ' span');
-        const row = getCellRef('r','c',id);
-        const col = getCellRef('c','',id);
+        const row = getCellRef('r', 'c', id);
+        const col = getCellRef('c', '', id);
         cell.classList.add('circle2')
-        playerCard[row],[col].isPicked = true;
+        playerCard[row][col].isPicked = true;
     }
 }
-
+//pick the next number from the numbers not aleady picked
 const pickANumber = (remainingNumbers) => {
     const index = getRandom(0, remainingNumbers.length);
     return remainingNumbers[index].value;
@@ -198,6 +205,7 @@ const pickANumber = (remainingNumbers) => {
 const displayNumberDrawn = (numberToDisplay) => {
     $(".face1").html(numberToDisplay);
 }
+//show the callers response...
 const displayNickName = (numberToCall) => {
     $('#nick-name').html(nickNames[numberToCall]);
 }
@@ -207,64 +215,117 @@ const generateNextNumber = () => {
     const numberDrawn = pickANumber(remainingNumbers);
     gameNumbers[numberDrawn - 1].isPicked = true;
     displayNumberDrawn(numberDrawn);
-    displayNickName(numberDrawn-1);
+    displayNickName(numberDrawn - 1);
 }
 
+
+const initialize = (numberOfCards) => {
+    bingoNumbers = initBingoNumbers();
+    playerCard = initCard();
+    let rows = numberOfCards * 3;
+    const cols = 9;
+
+    // setup the players card
+    if (fillCard(playerCard, rows, cols)) {
+        displayCard(playerCard, numberOfCards);
+    };
+}
+//user triggered events
+const startTheGame = () => {
+
+    generateNextNumber();
+    $('#the-spinner').addClass('cubespinner');
+    $('#the-spinner').on('webkitAnimationIteration', generateNextNumber);
+    $('#the-Spinner').css('-webkit-animation-play-state', 'running');
+}
+
+const toggleAnimation = () => {
+    $('#the-spinner').css('-webkit-animation-play-state', (i, v) => {
+        return v === 'running' ? 'paused' : 'running';
+    });
+}
+
+//Pick a prize generate a number between 1 and number of prizes in array
+const pickAPrize = (whichPrizeSelection) => {
+    console.log('pickAPrize :');
+    let numPrizes;
+    switch (whichPrizeSelection) {
+        case "winningLine":
+            numPrizes = winningLinePrizes.length;
+            return winningLinePrizes[getRandom(0, numPrizes)];
+        case "bingo":
+            numPrizes = bingoWinningPrize.length;
+            return bingoWinningPrize[getRandom(0, numPrizes)]
+    }
+}
+
+//put the prize on the screen
+const displayPrize = (whichLine, prize) => {
+    console.log('displayPrize :');
+    const imageFolder = "./assets/images/";
+    const extension = ".jpg";
+
+    $(whichLine + " img").attr("src", `${imageFolder}${prize}${extension}`);
+}
 // winning scenarios
 // compareArrays - check if the players arrays value are present in the drawn numbers
 const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
+console.log('drawnNumbers :', drawnNumbers);
+    if (playersMatchedNumbers.length === 0) return false;
+    console.log('playersMatchedNumbers :', playersMatchedNumbers);
+
     let matches = 0;
-    playersMatchedNumbers.forEach(num =>{
-        if(drawnNumbers.includes(num)) matches++;
+    playersMatchedNumbers.forEach(num => {
+        console.log('num :', num);
+
+        if (drawnNumbers.includes(num.value)) matches++;
+
     })
-    return matches === playersMatchedNumbers.length;
-}
+    console.log('matches :', matches);
+    console.log('matches + 1 === playersMatchedNumbers.length :', matches === playersMatchedNumbers.length);
+    return matches === undefined ? false : matches === playersMatchedNumbers.length;
 
-
-//user triggered events
-const startTheGame = () => {
-    generateNextNumber();
-    $('#the-spinner').addClass('cubespinner');
-    $('#the-spinner').on('webkitAnimationIteration',generateNextNumber);
 }
 // user thinks they have  a winning line check 
 // the numbers thay have clicked against thosse 
 // drawn
 const winningLine = () => {
-    const drawnNumbers = gameNumbers.filter(num => num.isPicked = true);
-    playerCard.forEach(row =>{
-        playerMarked = row.filter(markedCell => markedCell.isPicked = true);
-        if( compareArrays(drawnNumbers, playerMarked)) Alert ("Winning Line");
+    console.log('winningLine :', winningLine);
+
+    toggleAnimation();
+    console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1));
+    console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
+    .filter(num => num !== -1));
+    const drawnNumbers = gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
+        .filter(num => num !== -1);
+    playerCard.forEach(row => {
+        playerMarked = row.filter(markedCell => markedCell.isPicked === true);
+        if (compareArrays(drawnNumbers, playerMarked)) {
+            console.log("should have a prize")
+            const prize = pickAPrize("winningLine");
+            displayPrize(".winning-line-prize", prize);
+        };
 
     })
+    toggleAnimation();
 }
 
 const setUpEvents = () => {
-    $('#start-game').on('click',startTheGame);
-    $('winning-line').on('click', winningLine);
+    $('#start-game').on('click', startTheGame);
+    $('#winning-line').on('click', winningLine);
+
 }
 
 $(document).ready(() => {
-        
-    try {  
-        bingoNumbers = initBingoNumbers();
-        
-        playerCard = initCard();
-        
-        let numberOfCards = 2;
-        let rows = numberOfCards * 3;
-        const cols = 9;
-        
-        // setup the players card
-        if(fillCard(playerCard, rows, cols)){
-            displayCard(playerCard, numberOfCards);
-        };
-        
+
+    try {
+        initialize(numberOfCards);
+
         setUpEvents();
-        
+
         gameNumbers = initGameNumbers();
- 
-        } catch (error) {
-            console.log(error);
-        };
+
+    } catch (error) {
+        console.log(error);
+    };
 });
