@@ -9,7 +9,7 @@ h1 {
     text-align: center;
     color: rgb(161, 17, 17);
     font-size: 3em;
-    margin: 10px 0px 60px 0px;
+    margin: 10px 0px 20px 0px;
 }
 
 
@@ -23,13 +23,15 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin-top: 60px;
+  
+    margin-top: 20px;
     
     button {
-        width: 150px;
+        width: 100px;
         height: 60px;
         border-radius: 20px;
-        font-size: 2em;
+        font-size:1em;
+        margin-bottom:10px;
 
         &:hover {
             background-color: rgb(138, 28, 28);
@@ -43,7 +45,24 @@ h1 {
     width: 100vw;
     font-size: 1em;
     line-height: 2em;
-    margin: 40px auto;
+    margin: 20px auto;
     text-align: center;
-    
+}
+
+@media only screen and (min-width: 480px) {
+        
+    #player-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 60px;
+
+        button {
+            width: 150px;
+            height: 60px;
+            border-radius: 20px;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+    }
 }

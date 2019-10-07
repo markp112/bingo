@@ -207,17 +207,36 @@ const generateNextNumber = () => {
     const numberDrawn = pickANumber(remainingNumbers);
     gameNumbers[numberDrawn - 1].isPicked = true;
     displayNumberDrawn(numberDrawn);
-    displayNickName(numberDrawn);
+    displayNickName(numberDrawn-1);
 }
+
+// winning scenarios
+// compareArrays - check if the players arrays value are present in the drawn numbers
+const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
+    let matches = 0;
+    playersMatchedNumbers.forEach(num =>{
+        if(drawnNumbers.includes(num)) matches++;
+    })
+    return matches === playersMatchedNumbers.length;
+}
+
+
 //user triggered events
 const startTheGame = () => {
     generateNextNumber();
     $('#the-spinner').addClass('cubespinner');
     $('#the-spinner').on('webkitAnimationIteration',generateNextNumber);
 }
+// user thinks they have  a winning line check 
+// the numbers thay have clicked against thosse 
+// drawn
+const winningLine = () => {
+    const drawnNumbers = gameNumbers.filter(num => num.isPicked = true);
+    playerCard.forEach(row =>{
+        playerMarked = row.filter(markedCell => markedCell.isPicked = true);
+        if( compareArrays(drawnNumbers, playerMarked)) Alert ("Winning Line");
 
-const winningLine= () => {
-
+    })
 }
 
 const setUpEvents = () => {
