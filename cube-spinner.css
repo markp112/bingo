@@ -1,5 +1,6 @@
 @-webkit-keyframes spincube {
-  from, to {
+  from,
+  to {
     -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
   16% {
@@ -14,7 +15,8 @@
 }
 
 @keyframes spincube {
-  from, to {
+  from,
+  to {
     -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
@@ -55,7 +57,8 @@
   transform-origin: 60px 60px 0;
 }
 
-.cubespinner div, #the-spinner div {
+.cubespinner div,
+#the-spinner div {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -70,32 +73,38 @@
   font-family: inherit;
 }
 
-.cubespinner .face1, #the-spinner .face1 {
+.cubespinner .face1,
+#the-spinner .face1 {
   -webkit-transform: translateZ(60px);
   transform: translateZ(60px);
 }
 
-.cubespinner .face2, #the-spinner .face2 {
+.cubespinner .face2,
+#the-spinner .face2 {
   -webkit-transform: rotateY(90deg) translateZ(60px);
   transform: rotateY(90deg) translateZ(60px);
 }
 
-.cubespinner .face3, #the-spinner .face3 {
+.cubespinner .face3,
+#the-spinner .face3 {
   -webkit-transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
   transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
 }
 
-.cubespinner .face4, #the-spinner .face4 {
+.cubespinner .face4,
+#the-spinner .face4 {
   -webkit-transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
   transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
 }
 
-.cubespinner .face5, #the-spinner .face5 {
+.cubespinner .face5,
+#the-spinner .face5 {
   -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
   transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
 }
 
-.cubespinner .face6, #the-spinner .face6 {
+.cubespinner .face6,
+#the-spinner .face6 {
   -webkit-transform: rotateX(-90deg) translateZ(60px);
   transform: rotateX(-90deg) translateZ(60px);
 }

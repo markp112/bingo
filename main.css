@@ -95,7 +95,8 @@
 }
 
 @-webkit-keyframes spincube {
-  from, to {
+  from,
+  to {
     -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
   16% {
@@ -110,7 +111,8 @@
 }
 
 @keyframes spincube {
-  from, to {
+  from,
+  to {
     -webkit-transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
             transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
@@ -151,7 +153,8 @@
   transform-origin: 60px 60px 0;
 }
 
-.cubespinner div, #the-spinner div {
+.cubespinner div,
+#the-spinner div {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -166,32 +169,38 @@
   font-family: inherit;
 }
 
-.cubespinner .face1, #the-spinner .face1 {
+.cubespinner .face1,
+#the-spinner .face1 {
   -webkit-transform: translateZ(60px);
   transform: translateZ(60px);
 }
 
-.cubespinner .face2, #the-spinner .face2 {
+.cubespinner .face2,
+#the-spinner .face2 {
   -webkit-transform: rotateY(90deg) translateZ(60px);
   transform: rotateY(90deg) translateZ(60px);
 }
 
-.cubespinner .face3, #the-spinner .face3 {
+.cubespinner .face3,
+#the-spinner .face3 {
   -webkit-transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
   transform: rotateY(90deg) rotateX(90deg) translateZ(60px);
 }
 
-.cubespinner .face4, #the-spinner .face4 {
+.cubespinner .face4,
+#the-spinner .face4 {
   -webkit-transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
   transform: rotateY(180deg) rotateZ(90deg) translateZ(60px);
 }
 
-.cubespinner .face5, #the-spinner .face5 {
+.cubespinner .face5,
+#the-spinner .face5 {
   -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
   transform: rotateY(-90deg) rotateZ(90deg) translateZ(60px);
 }
 
-.cubespinner .face6, #the-spinner .face6 {
+.cubespinner .face6,
+#the-spinner .face6 {
   -webkit-transform: rotateX(-90deg) translateZ(60px);
   transform: rotateX(-90deg) translateZ(60px);
 }
@@ -201,7 +210,7 @@
   padding: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  font-family: 'Big Shoulders Text', cursive;
+  font-family: "Big Shoulders Text", cursive;
 }
 
 h1 {
@@ -209,6 +218,93 @@ h1 {
   color: #a11111;
   font-size: 3em;
   margin: 10px 0px 20px 0px;
+}
+
+#instructions {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 15vw;
+  top: 10vh;
+  width: 70%;
+  height: 80%;
+  overflow: auto;
+  background-color: #9b7d7d;
+  /* Fallback color */
+  -webkit-box-shadow: 1px 4px 10px 5px grey;
+          box-shadow: 1px 4px 10px 5px grey;
+}
+
+#instructions h2 {
+  text-align: center;
+  margin-top: 10px;
+}
+
+#instructions p {
+  padding: 7px;
+}
+
+#instructions .options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 20px;
+  height: 50px;
+  width: 100%;
+}
+
+#instructions .options p {
+  margin-top: 10px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+}
+
+#instructions .options #option-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+}
+
+#instructions .options #option-list input {
+  margin-right: 5%;
+  padding: 5px;
+}
+
+#instructions .options label {
+  margin: 10px auto;
+}
+
+#instructions .options input[type=number] {
+  margin: 0 auto;
+  width: 24px;
+  text-align: center;
+  padding: 2px;
+}
+
+#instructions .options input[type=submit] {
+  margin: 10px auto;
+  width: 60px;
+  text-align: center;
+  padding: 2px;
+  color: whitesmoke;
+  background-color: #332572;
 }
 
 #game-wrapper {
@@ -256,9 +352,19 @@ h1 {
 
 #caller-words #nick-name {
   width: 100vw;
-  font-size: 0.8em;
+  font-size: 0.9em;
   margin: 20px auto;
   text-align: center;
+}
+
+#prizes {
+  width: 100vw;
+  height: 40px;
+}
+
+#prizes .winning-line-prize {
+  width: 60px;
+  height: 60px;
 }
 
 @media only screen and (min-width: 480px) {

@@ -1,8 +1,8 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Big Shoulders Text', cursive;
+    font-family: "Big Shoulders Text", cursive;
 }
 
 h1 {
@@ -11,6 +11,74 @@ h1 {
     font-size: 3em;
     margin: 10px 0px 20px 0px;
 }
+#instructions {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left:  0.15*(100vw);
+    top: 0.1*(100vh);
+    width: 70%;
+    height: 80%;
+    overflow: auto;
+    background-color: rgb(155, 125, 125); /* Fallback color */
+    box-shadow: 1px 4px 10px 5px grey;
+
+    h2 {
+        text-align: center;
+        margin-top: 10px;
+    }
+    p {
+        padding: 7px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 20px;
+        height: 50px;
+        width: 100%;
+
+        p { 
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+
+        #option-list {
+            display: flex;
+            flex-direction: row;
+            justify-content:center;
+            width: 100%;
+
+            input{
+                margin-right: 5%;
+                padding: 5px;
+            }
+        }
+
+        label {
+            margin: 10px auto;
+        }
+        input[type=number] {
+            margin: 0 auto;
+            width: 24px;
+            text-align: center;
+            padding: 2px;
+        }
+
+        input[type=submit] {
+            margin: 10px auto;
+            width: 60px;
+            text-align: center;
+            padding: 2px;
+            color: whitesmoke;
+            background-color: rgb(51, 37, 114);
+        }
+
+    }
+}
+
 
 
 #game-wrapper {
@@ -23,15 +91,15 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-  
+
     margin-top: 20px;
-    
+
     button {
         width: 100px;
         height: 60px;
         border-radius: 20px;
-        font-size:1em;
-        margin-bottom:10px;
+        font-size: 1em;
+        margin-bottom: 10px;
 
         &:hover {
             background-color: rgb(138, 28, 28);
@@ -50,11 +118,20 @@ h1 {
         margin: 20px auto;
         text-align: center;
     }
-    
+}
+
+#prizes {
+    width: 100vw;
+    height: 40px;
+
+    .winning-line-prize {
+        width: 60px;
+        height: 60px;
+
+    }
 }
 
 @media only screen and (min-width: 480px) {
-        
     #player-buttons {
         display: flex;
         flex-direction: row;

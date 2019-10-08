@@ -7,8 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build-css": "sass .:.",
-    "build": "yarn build-css",
-    "test": "jest --config jest-challenge.config.js"
+    "build": "yarn build-css"
+  
   },
   "devDependencies": {
     "sass": "^1.23.0"

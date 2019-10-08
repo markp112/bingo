@@ -267,24 +267,32 @@ const displayPrize = (whichLine, prize) => {
 
     $(whichLine + " img").attr("src", `${imageFolder}${prize}${extension}`);
 }
+
 // winning scenarios
 // compareArrays - check if the players arrays value are present in the drawn numbers
+// expects two sorted arrays of numbers
+//
 const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
 console.log('drawnNumbers :', drawnNumbers);
-    if (playersMatchedNumbers.length === 0) return false;
+    if (playersMatchedNumbers.length === 0 || drawnNumbers.length === 0)  return false;
+
     console.log('playersMatchedNumbers :', playersMatchedNumbers);
 
     let matches = 0;
     playersMatchedNumbers.forEach(num => {
         console.log('num :', num);
-
         if (drawnNumbers.includes(num.value)) matches++;
 
     })
     console.log('matches :', matches);
     console.log('matches + 1 === playersMatchedNumbers.length :', matches === playersMatchedNumbers.length);
-    return matches === undefined ? false : matches === playersMatchedNumbers.length;
+    return matches === 0 ? false : matches === playersMatchedNumbers.length;
+}
 
+// filter the array for picked cells returning an array of numbers in sorted order
+const getPickedNumbers = (arrayOfCells) => {
+    return gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
+        .filter(num => num !== -1).sort();
 }
 // user thinks they have  a winning line check 
 // the numbers thay have clicked against thosse 
@@ -296,11 +304,12 @@ const winningLine = () => {
     console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1));
     console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
     .filter(num => num !== -1));
-    const drawnNumbers = gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
-        .filter(num => num !== -1);
+    const drawnNumbers = getPickedNumbers(gameNumbers);
     playerCard.forEach(row => {
-        playerMarked = row.filter(markedCell => markedCell.isPicked === true);
-        if (compareArrays(drawnNumbers, playerMarked)) {
+        const playerMarked = getPickedNumbers(row);
+         // check that the numbers the user has picked are in the drawn numbers and the 
+         // user has marked all the numbers in the row.
+        if (compareArrays(drawnNumbers, playerMarked) && playerMarked.length === row.length) {
             console.log("should have a prize")
             const prize = pickAPrize("winningLine");
             displayPrize(".winning-line-prize", prize);
@@ -313,6 +322,7 @@ const winningLine = () => {
 const setUpEvents = () => {
     $('#start-game').on('click', startTheGame);
     $('#winning-line').on('click', winningLine);
+    $("#submit-options").on('click',startTheGame);
 
 }
 

@@ -23,6 +23,26 @@
     </header>
 
     <main>
+        <section id="instructions">
+            <h2>Welcome</h2>
+            <p>
+                In this game of bingo you play against yourself, this game is designed to test your ability to concentrate. You start out with amount money a winning line will score £5 and a full house £10. To win you must click on either of the two buttons the computer will then validate if the numbers you have marked match the numbers drawn. If the computer draws all of the numbers before you have called either you will lose £20.00. The game finishes when you have no money left or you walk away...
+            </p>
+
+            <form class="options" action="#">
+                <p>Select Difficulty:</p>
+                <div id="option-list">
+                    Easy:<input type="radio" class="buttons" name="difficulty" value="easy">
+                    Medium:<input type="radio" class="buttons" name="difficulty" value="medium">
+                    Hard:<input type="radio" class="buttons" name="difficulty" value="hard">
+                </div>
+
+                <label for="cards">Enter number of cards 1 - 6</label>
+                <input type="number" name="cards" id="numCards" min="1" max="6" required>
+                <input type="submit" value="Submit" id="submit-options">
+            </form>
+
+        </section>
 
         <section id="bingo-caller">
             <div class="stage" style="width: 110px; height: 110px;">
