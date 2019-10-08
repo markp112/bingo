@@ -25,6 +25,7 @@ const initBingoNumbers = () => {
     }
     return arrayToInitialise;
 };
+
 //fill an array with the numbers 1 to 90
 const initGameNumbers = () => {
     let arrayToInitialise = [];
@@ -34,13 +35,12 @@ const initGameNumbers = () => {
             isPicked: false
         };
         arrayToInitialise.push(cell);
-
     }
     return arrayToInitialise;
 }
 
 // initialises the players card
-// i.e. sets up teh structure of the card
+// i.e. sets up the structure of the card
 const initCard = () => {
     let card = [];
     for (let indexRow = 0; indexRow < 18; indexRow++) {
@@ -58,12 +58,10 @@ const initCard = () => {
     return card;
 }
 
-
 // generate a random number between min and max
 const getRandom = (min, max) => {
     return parseInt(Math.random() * (max - min) + min);
 }
-
 
 // for each column in the players card generate numBlanks blank squares
 // input: numBlanks - number of blanks to be created
@@ -72,7 +70,6 @@ const getRandom = (min, max) => {
 const createBlanks = numBlanks => {
     let blanks = [];
     let isComplete = false;
-
     while (!isComplete) {
         let random = getRandom(0, 18);
         // only add numbers not already in the array
@@ -100,28 +97,34 @@ const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
 
 // createPlayerNumbers fill the card with numbers and blank cells based on the maximum rows and columns
 const createPlayerNumbers = (card, maxRows, maxCols) => {
-    let pickedNumbers = [];
-
-    for (let indexCol = 0; indexCol < maxCols; indexCol++) {
-        // generate the blanks in each column first col has 9 rest have 8
-        const blanks = indexCol === 0 ? maxRows : (maxRows - 1);
-        const blankCells = createBlanks(blanks);
-
-        pickedNumbers = [];
-        for (let indexRow = 0; indexRow < maxRows; indexRow++) {
-            // if the current cell is defined as blank set flag to true
-            if (blankCells.includes(indexRow)) {
-                card[indexRow][indexCol].isBlank = true;
-            } else {
-                // get a unique random number.... To do...
-                // for column 0 numbers 0-9 for column 2 10-19 etc
-                // therefore: for col ===0 col * 10 = 0 and col * 10 + 9 = 9
-                let rand = getUniqueRandomNumber(pickedNumbers, (indexCol * 10), (indexCol * 10 + 9));
-                pickedNumbers.push(rand);
-                card[indexRow][indexCol].value = rand;
-                card[indexRow][indexCol].isBlank = false;
+    try {
+        let pickedNumbers = [];
+        for (let indexCol = 0; indexCol < maxCols; indexCol++) {
+            // generate the blanks in each column first col has 9 rest have 8
+            const blanks = indexCol === 0 ? maxRows : (maxRows - 1);
+            const blankCells = createBlanks(blanks);
+            pickedNumbers = [];
+            for (let indexRow = 0; indexRow < maxRows; indexRow++) {
+                // if the current cell is defined as blank set flag to true
+                if (blankCells.includes(indexRow)) {
+                    card[indexRow][indexCol].isBlank = true;
+                } else {
+                    // get a unique random number.... To do...
+                    // for column 0 numbers 0-9 for column 2 10-19 etc
+                    // therefore: for col ===0 col * 10 = 0 and col * 10 + 9 = 9
+                    const startValue = indexCol === 0 ?  1 : indexCol * 10;
+                    const endValue = indexCol === 8? ((indexCol * 10) + 10) : (indexCol * 10) + 9;
+                    const rand = getUniqueRandomNumber(pickedNumbers, startValue, endValue);
+                    //record this number as being selected so it is not picked again
+                    pickedNumbers.push(rand);
+                    card[indexRow][indexCol].value = rand;
+                    card[indexRow][indexCol].isBlank = false;
+                }
             }
         }
+        return true;
+    } catch (error) {
+        throw new Error(`Failed to createPlayerNumbers --> ${error}`);
     }
 };
 
@@ -133,15 +136,11 @@ const fillCard = (card, rows, columns) => {
         throw new Error(`Failed to populateNumbers --> ${error}`);
     }
 };
-
-
-
-
+// take the players generated numbers and put them on the players card 
+// on the screen - 
 const putNumbersOnScreenCard = (playerCard) => {
-
     // get all the cells for the cards that have been put on the screen
     const c2 = document.querySelectorAll('.row .cell');
-
     let colIndex = 0;
     c2.forEach((cell, index) => {
         const rowIndex = parseInt(index / 9);
@@ -163,30 +162,31 @@ const putNumbersOnScreenCard = (playerCard) => {
     });
 }
 
-
 // display the players card on the screen:
 // first get a reference to the card contained in the html partials folder
 // based on the data in the array playerCard transcribe this to the Html card
 // inserting the numbber where a number exists and blank where the cell is blank
-//
 const displayCard = (playerCard, numberOfCards) => {
-
     const importedCard = document.querySelector('#player-card').import;
     const card = importedCard.querySelector('.bingo-card');
     const insertionPoint = document.querySelector("#game-wrapper");
     //inject card into display then populate with numbers
     insertionPoint.appendChild(card);
-
     putNumbersOnScreenCard(playerCard);
 }
 
+// extract the numeric element from the cell ref
+// expects startchar to be the character from which we search from in the string
+// and endChar the character we stop at cellRef is the string to be searched
+// e.g. cell ref is expected to have the format 'r1c1' as in row and column
+// startChar might be 'r' or 'c' and end char 'c' or '' to get the rest of the string
 const getCellRef = (startChar, endChar, cellRef) => {
     const startPos = cellRef.indexOf(startChar) + 1;
     const endPos = endChar === "" ? cellRef.length : cellRef.indexOf(endChar);
     return cellRef.substring(startPos, endPos);
 }
 
-
+//player has clicked on a cell on the card, mark the card on the screen
 const markCard = (id) => {
     if (typeof id === "string") {
         const cell = document.querySelector('#' + id + ' span');
@@ -196,19 +196,23 @@ const markCard = (id) => {
         playerCard[row][col].isPicked = true;
     }
 }
+
 //pick the next number from the numbers not aleady picked
 const pickANumber = (remainingNumbers) => {
     const index = getRandom(0, remainingNumbers.length);
     return remainingNumbers[index].value;
 }
+
 //put the next number on the bingo caller
 const displayNumberDrawn = (numberToDisplay) => {
     $(".face1").html(numberToDisplay);
 }
+
 //show the callers response...
 const displayNickName = (numberToCall) => {
     $('#nick-name').html(nickNames[numberToCall]);
 }
+
 //when the animation completes an iteration generate the next number
 const generateNextNumber = () => {
     const remainingNumbers = gameNumbers.filter(num => num.isPicked === false);
@@ -217,28 +221,46 @@ const generateNextNumber = () => {
     displayNumberDrawn(numberDrawn);
     displayNickName(numberDrawn - 1);
 }
-
-
+// setup the game components
 const initialize = (numberOfCards) => {
     bingoNumbers = initBingoNumbers();
     playerCard = initCard();
     let rows = numberOfCards * 3;
     const cols = 9;
-
     // setup the players card
     if (fillCard(playerCard, rows, cols)) {
         displayCard(playerCard, numberOfCards);
     };
 }
 //user triggered events
+// commence the game
 const startTheGame = () => {
-
     generateNextNumber();
     $('#the-spinner').addClass('cubespinner');
     $('#the-spinner').on('webkitAnimationIteration', generateNextNumber);
-    $('#the-Spinner').css('-webkit-animation-play-state', 'running');
+    $('#the-spinner').css('-webkit-animation-play-state', 'running');
+    $('#start-game').prop('disabled', true);
+
 }
 
+// change the speed of the animation based on the difficulty, at the end of each animation cycle
+// the number is "drawn" 
+const setAnimationSpeed = difficulty => {
+    switch (difficulty) {
+        case "easy":
+            $('#the-spinner').css('animation-duration','5s');
+            break;
+        
+        case "medium":
+            $('#the-spinner').css('animation-duration','2s');
+            break;
+        case "hard":
+            $('#the-spinner').css('animation-duration','1.5s');
+            break;
+    };
+}
+
+// pause the animation whislt the winning numbers are checked
 const toggleAnimation = () => {
     $('#the-spinner').css('-webkit-animation-play-state', (i, v) => {
         return v === 'running' ? 'paused' : 'running';
@@ -271,39 +293,31 @@ const displayPrize = (whichLine, prize) => {
 // winning scenarios
 // compareArrays - check if the players arrays value are present in the drawn numbers
 // expects two sorted arrays of numbers
-//
 const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
-console.log('drawnNumbers :', drawnNumbers);
     if (playersMatchedNumbers.length === 0 || drawnNumbers.length === 0)  return false;
-
-    console.log('playersMatchedNumbers :', playersMatchedNumbers);
-
     let matches = 0;
     playersMatchedNumbers.forEach(num => {
-        console.log('num :', num);
+    console.log('playersMatchedNumbers :', playersMatchedNumbers);
         if (drawnNumbers.includes(num.value)) matches++;
-
     })
     console.log('matches :', matches);
-    console.log('matches + 1 === playersMatchedNumbers.length :', matches === playersMatchedNumbers.length);
     return matches === 0 ? false : matches === playersMatchedNumbers.length;
+    
 }
 
-// filter the array for picked cells returning an array of numbers in sorted order
+// filter the array where cells have isPicked = true,
+// returns an array of numbers in sorted order
 const getPickedNumbers = (arrayOfCells) => {
     return gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
         .filter(num => num !== -1).sort();
 }
-// user thinks they have  a winning line check 
-// the numbers thay have clicked against thosse 
-// drawn
-const winningLine = () => {
-    console.log('winningLine :', winningLine);
 
+// user thinks they have  a winning line check 
+// the numbers they have selected against those actually drawn
+const winningLine = () => {
+    console.log('winningLine :');
+    // pause animation
     toggleAnimation();
-    console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1));
-    console.log(gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
-    .filter(num => num !== -1));
     const drawnNumbers = getPickedNumbers(gameNumbers);
     playerCard.forEach(row => {
         const playerMarked = getPickedNumbers(row);
@@ -323,19 +337,22 @@ const setUpEvents = () => {
     $('#start-game').on('click', startTheGame);
     $('#winning-line').on('click', winningLine);
     $("#submit-options").on('click',startTheGame);
-
 }
 
-$(document).ready(() => {
-
+const playBingo = () => {
+    
     try {
-        initialize(numberOfCards);
-
+        const difficulty = $('input[name=difficulty]:checked').val();
+        // setAnimationSpeed(difficulty);
+        const numCards = $('#num-cards').val();
+        console.log('numCards  :', numCards );
+        initialize(numCards);
         setUpEvents();
-
         gameNumbers = initGameNumbers();
 
     } catch (error) {
         console.log(error);
     };
-});
+    $('#instructions').addClass('hide')
+}
+

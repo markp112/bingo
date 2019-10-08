@@ -11,8 +11,17 @@ h1 {
     font-size: 3em;
     margin: 10px 0px 20px 0px;
 }
-#instructions {
+
+.visible {
     display: block;
+}
+
+.hide {
+    display: none;
+}
+
+#instructions {
+    
     position: fixed;
     z-index: 1;
     left:  0.15*(100vw);
@@ -20,30 +29,28 @@ h1 {
     width: 70%;
     height: 80%;
     overflow: auto;
-    background-color: rgb(155, 125, 125); /* Fallback color */
-    box-shadow: 1px 4px 10px 5px grey;
+    background-color: rgba(252, 247, 247, 0.98); 
+    box-shadow: 10px 10px 10px 5px grey;
+    border:2px solid darkblue;
+    border-radius: 7px;
 
     h2 {
         text-align: center;
         margin-top: 10px;
     }
     p {
-        padding: 7px;
+        padding: 10px;
     }
 
+    
     .options {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        margin-top: 20px;
+        margin-top: 50px;
         height: 50px;
         width: 100%;
-
-        p { 
-            margin-top: 10px;
-            align-self: flex-start;
-        }
 
         #option-list {
             display: flex;
@@ -69,11 +76,13 @@ h1 {
 
         input[type=submit] {
             margin: 10px auto;
-            width: 60px;
+            width: 80px;
+            height: 40px;
             text-align: center;
-            padding: 2px;
+            padding: 10px;
             color: whitesmoke;
             background-color: rgb(51, 37, 114);
+            border-radius: 1em;
         }
 
     }
@@ -85,6 +94,7 @@ h1 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+
 }
 
 #player-buttons {
@@ -127,6 +137,11 @@ h1 {
     .winning-line-prize {
         width: 60px;
         height: 60px;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
 
     }
 }

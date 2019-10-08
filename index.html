@@ -26,20 +26,24 @@
         <section id="instructions">
             <h2>Welcome</h2>
             <p>
-                In this game of bingo you play against yourself, this game is designed to test your ability to concentrate. You start out with amount money a winning line will score £5 and a full house £10. To win you must click on either of the two buttons the computer will then validate if the numbers you have marked match the numbers drawn. If the computer draws all of the numbers before you have called either you will lose £20.00. The game finishes when you have no money left or you walk away...
+                In this game of bingo you play against yourself, 
+                this game is designed to test your ability to concentrate. 
+                You start the game with a set amount of money. To win more money and keep playing
+                you must click 'Winning Line' or 'Bingo'. The computer will validate that the numbers you have
+                marked as being picked, have been drawn. For a winning line you will get 10 credits and for Bingo 20 credits.
+                If the computer finishes drawing all of the numbers before you have completed your card you lose 30 credits.
             </p>
-
-            <form class="options" action="#">
-                <p>Select Difficulty:</p>
+            <p>Select Difficulty:</p>
+            <form class="options"  onSubmit="event.preventDefault(); playBingo()">
                 <div id="option-list">
-                    Easy:<input type="radio" class="buttons" name="difficulty" value="easy">
-                    Medium:<input type="radio" class="buttons" name="difficulty" value="medium">
-                    Hard:<input type="radio" class="buttons" name="difficulty" value="hard">
+                    Easy:<input type="radio" class="buttons" name="difficulty" value="easy" checked = "checked" required>
+                    Medium:<input type="radio" class="buttons" name="difficulty" value="medium" required>
+                    Hard:<input type="radio" class="buttons" name="difficulty" value="hard" required>
                 </div>
 
                 <label for="cards">Enter number of cards 1 - 6</label>
-                <input type="number" name="cards" id="numCards" min="1" max="6" required>
-                <input type="submit" value="Submit" id="submit-options">
+                <input type="number" name="cards" id="num-cards" min="1" max="6" required>
+                <input type="submit" value="Play" id="submit-options" >
             </form>
 
         </section>
