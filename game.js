@@ -8,10 +8,10 @@ let gameNumbers = [];
 let playerCard = [];
 let numberOfCards = 2;
 
-// this function initialises our bingoNumbers array by filling it with bingoNumber objects numbered 1 to 90 with a the flag set to false
+// this function initialises the bingoNumbers array by filling it with bingoNumber objects numbered 1 to 90 with ispicked the flag set to false, this flag is used to determine when generating numbers across cards
+// if the number has been picked previously
 const initBingoNumbers = () => {
     let arrayToInitialise = [];
-
     for (let row = 0; row < 9; row++) {
         let rowNumbers = [];
         for (let col = 0; col < 10; col++) {
@@ -294,28 +294,33 @@ const displayPrize = (whichLine, prize) => {
 // compareArrays - check if the players arrays value are present in the drawn numbers
 // expects two sorted arrays of numbers
 const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
+console.log("TCL: compareArrays -> playersMatchedNumbers", playersMatchedNumbers)
+console.log("TCL: compareArrays -> drawnNumbers", drawnNumbers)
+    
     if (playersMatchedNumbers.length === 0 || drawnNumbers.length === 0)  return false;
     let matches = 0;
     playersMatchedNumbers.forEach(num => {
-    console.log('playersMatchedNumbers :', playersMatchedNumbers);
-        if (drawnNumbers.includes(num.value)) matches++;
+        console.log(num);
+        if (drawnNumbers.includes(num)) matches++;
     })
-    console.log('matches :', matches);
-    return matches === 0 ? false : matches === playersMatchedNumbers.length;
-    
+     console.log("TCL: compareArrays -> matches", matches);
+    return matches === 0 ? false : matches === playersMatchedNumbers.length; 
+}
+
+const sortNumber = (a,b) => {
+    return a - b;
 }
 
 // filter the array where cells have isPicked = true,
 // returns an array of numbers in sorted order
 const getPickedNumbers = (arrayOfCells) => {
-    return gameNumbers.map(cell => cell.isPicked ? cell.value : -1)
-        .filter(num => num !== -1).sort();
+    return arrayOfCells.map(cell => cell.isPicked ? cell.value : -1)
+        .filter(num => num !== -1).sort(sortNumber);
 }
 
 // user thinks they have  a winning line check 
 // the numbers they have selected against those actually drawn
 const winningLine = () => {
-    console.log('winningLine :');
     // pause animation
     toggleAnimation();
     const drawnNumbers = getPickedNumbers(gameNumbers);

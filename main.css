@@ -20,7 +20,7 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 #bingo-caller .called-number {
@@ -92,6 +92,12 @@
 
 .bingo-card .row .blank-cell {
   background-color: palevioletred;
+}
+
+@media only screen and (min-width: 480px) {
+  .bingo-card {
+    width: 40vw;
+  }
 }
 
 @-webkit-keyframes spincube {
@@ -363,16 +369,21 @@ h1 {
 
 #prizes {
   width: 100vw;
-  height: 40px;
-}
-
-#prizes .winning-line-prize {
-  width: 60px;
   height: 60px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
 }
 
-#prizes .winning-line-prize img {
-  width: 100%;
+#prizes img {
+  width: 60px;
   height: 100%;
 }
 
@@ -385,16 +396,28 @@ h1 {
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
-    -ms-flex-pack: distribute;
-        justify-content: space-around;
-    margin-top: 60px;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    margin-top: 30px;
   }
   #player-buttons button {
     width: 150px;
     height: 60px;
     border-radius: 20px;
     font-size: 2em;
-    margin-bottom: 10px;
+    margin: 0px 10px 10px 0px;
   }
+}
+
+#instructions {
+  left: 30vw;
+  top: 12vh;
+  width: 40%;
+  height: 80%;
+}
+
+#instructions .options input[type=number] {
+  width: 40px;
 }
 /*# sourceMappingURL=main.css.map */
