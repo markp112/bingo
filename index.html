@@ -23,6 +23,7 @@
     </header>
 
     <main>
+        <span id="hidden-card-number"></span>
         <section id="instructions">
             <h2>Welcome</h2>
             <p>
@@ -38,7 +39,7 @@
                     Hard:<input type="radio" class="buttons" name="difficulty" value="hard" required>
                 </div>
 
-                <label for="cards">Enter number of cards 1 - 6</label>
+                <label id="#label-number-of-cards" for="cards">Enter number of cards 1 - 6</label>
                 <input type="number" name="cards" id="num-cards" min="1" max="6" required>
                 <input type="submit" value="Play" id="submit-options" >
             </form>

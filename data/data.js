@@ -92,7 +92,7 @@ const nickNames = [
 ]
 
 winningLinePrizes = [
-  "trebor",
+  "packOfTrebors",
   "chocolates",
   "percyPigs",
   "mysteryprize"

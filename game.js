@@ -1,14 +1,12 @@
 // main code for the game
 
-
-
 // this array is used to hold a place holder for each of the numbers between 1 and 90 which holds the number and a flag which indicates if this number has already been picked
 let bingoNumbers = [];
 let gameNumbers = [];
 let playerCard = [];
 let numberOfCards = 2;
 
-// this function initialises the bingoNumbers array by filling it with bingoNumber objects numbered 1 to 90 with ispicked the flag set to false, this flag is used to determine when generating numbers across cards
+// initBingoNumbers initialises the bingoNumbers array by filling it with bingoNumber objects numbered 1 to 90 with ispicked the flag set to false, this flag is used to determine when generating numbers across cards
 // if the number has been picked previously
 const initBingoNumbers = () => {
     let arrayToInitialise = [];
@@ -40,7 +38,11 @@ const initGameNumbers = () => {
 }
 
 // initialises the players card
-// i.e. sets up the structure of the card
+// i.e. sets up the structure of the card an 18 x 9 array 
+// of cells containging a value or isBlank and isPicked
+// value is the number for this cell on the players card
+// isBlank indicates the cell is a blank and value will be -1
+// isPicked indicates the player clicked on this number
 const initCard = () => {
     let card = [];
     for (let indexRow = 0; indexRow < 18; indexRow++) {
@@ -71,6 +73,8 @@ const createBlanks = numBlanks => {
     let blanks = [];
     let isComplete = false;
     while (!isComplete) {
+    console.log('isComplete :', isComplete);
+
         let random = getRandom(0, 18);
         // only add numbers not already in the array
         if (!blanks.includes(random)) blanks.push(random);
@@ -90,18 +94,22 @@ const getColumnRef = (uniqueNumber, indexCol) => {
 const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
     let rand = getRandom(minRange, maxRange);
     while (pickedNumbers.includes(rand)) {
+    console.log('pickedNumbers :', pickedNumbers);
         rand = getRandom(minRange, maxRange);
+        console.log('rand :', rand);
     }
     return rand;
 }
 
 // createPlayerNumbers fill the card with numbers and blank cells based on the maximum rows and columns
 const createPlayerNumbers = (card, maxRows, maxCols) => {
+console.log('maxRows :', maxRows);
+    
     try {
         let pickedNumbers = [];
         for (let indexCol = 0; indexCol < maxCols; indexCol++) {
             // generate the blanks in each column first col has 9 rest have 8
-            const blanks = indexCol === 0 ? maxRows : (maxRows - 1);
+            const blanks = indexCol === 0 ? 9 : 8;
             const blankCells = createBlanks(blanks);
             pickedNumbers = [];
             for (let indexRow = 0; indexRow < maxRows; indexRow++) {
@@ -164,15 +172,16 @@ const putNumbersOnScreenCard = (playerCard) => {
 
 // display the players card on the screen:
 // first get a reference to the card contained in the html partials folder
-// based on the data in the array playerCard transcribe this to the Html card
-// inserting the numbber where a number exists and blank where the cell is blank
-const displayCard = (playerCard, numberOfCards) => {
+// and based on the number of cards a player has selected create this 
+// many player cards
+const displayCard = (numberOfCards) => {
     const importedCard = document.querySelector('#player-card').import;
     const card = importedCard.querySelector('.bingo-card');
     const insertionPoint = document.querySelector("#game-wrapper");
     //inject card into display then populate with numbers
-    insertionPoint.appendChild(card);
-    putNumbersOnScreenCard(playerCard);
+    for(let index = 0; index < numberOfCards; index++){
+        insertionPoint.appendChild(card.cloneNode(true));
+    };
 }
 
 // extract the numeric element from the cell ref
@@ -221,6 +230,7 @@ const generateNextNumber = () => {
     displayNumberDrawn(numberDrawn);
     displayNickName(numberDrawn - 1);
 }
+
 // setup the game components
 const initialize = (numberOfCards) => {
     bingoNumbers = initBingoNumbers();
@@ -229,9 +239,13 @@ const initialize = (numberOfCards) => {
     const cols = 9;
     // setup the players card
     if (fillCard(playerCard, rows, cols)) {
-        displayCard(playerCard, numberOfCards);
+    console.log('playerCard :', playerCard);
+        
+        displayCard(numberOfCards);
+        putNumbersOnScreenCard(playerCard);
     };
 }
+
 //user triggered events
 // commence the game
 const startTheGame = () => {
@@ -240,7 +254,10 @@ const startTheGame = () => {
     $('#the-spinner').on('webkitAnimationIteration', generateNextNumber);
     $('#the-spinner').css('-webkit-animation-play-state', 'running');
     $('#start-game').prop('disabled', true);
+}
 
+const endGame = () => {
+    alert('you won');
 }
 
 // change the speed of the animation based on the difficulty, at the end of each animation cycle
@@ -255,7 +272,7 @@ const setAnimationSpeed = difficulty => {
             $('#the-spinner').css('animation-duration','2s');
             break;
         case "hard":
-            $('#the-spinner').css('animation-duration','1.5s');
+            $('#the-spinner').css('animation-duration','1.8s');
             break;
     };
 }
@@ -286,7 +303,6 @@ const displayPrize = (whichLine, prize) => {
     console.log('displayPrize :');
     const imageFolder = "./assets/images/";
     const extension = ".jpg";
-
     $(whichLine + " img").attr("src", `${imageFolder}${prize}${extension}`);
 }
 
@@ -294,16 +310,12 @@ const displayPrize = (whichLine, prize) => {
 // compareArrays - check if the players arrays value are present in the drawn numbers
 // expects two sorted arrays of numbers
 const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
-console.log("TCL: compareArrays -> playersMatchedNumbers", playersMatchedNumbers)
-console.log("TCL: compareArrays -> drawnNumbers", drawnNumbers)
-    
     if (playersMatchedNumbers.length === 0 || drawnNumbers.length === 0)  return false;
     let matches = 0;
     playersMatchedNumbers.forEach(num => {
         console.log(num);
         if (drawnNumbers.includes(num)) matches++;
-    })
-     console.log("TCL: compareArrays -> matches", matches);
+    })     
     return matches === 0 ? false : matches === playersMatchedNumbers.length; 
 }
 
@@ -328,7 +340,7 @@ const winningLine = () => {
         const playerMarked = getPickedNumbers(row);
          // check that the numbers the user has picked are in the drawn numbers and the 
          // user has marked all the numbers in the row.
-        if (compareArrays(drawnNumbers, playerMarked) && playerMarked.length === row.length) {
+        if (compareArrays(drawnNumbers, playerMarked) && playerMarked.length === row.filter(cell => !cell.isBlank).length) {
             console.log("should have a prize")
             const prize = pickAPrize("winningLine");
             displayPrize(".winning-line-prize", prize);
@@ -337,20 +349,58 @@ const winningLine = () => {
     })
     toggleAnimation();
 }
+// check the players card(s) to see if the numbers drawn match all of the numbers
+// marked on the players card
+const checkCard = (card, drawnNumbers) => {
+    const startRow = card * 3;
+    const endRow = startRow + 2;
+    let rowsMatched = 0;
+    for (index = startRow; index <= endRow; index++) {
+        const row = playerCard[index];
+        const playerMarked = getPickedNumbers(row);
+        if (compareArrays(drawnNumbers, playerMarked) 
+            && playerMarked.length === row.filter(cell => !cell.isBlank).length) rowsMatched++
+    }
+    return rowsMatched === 3;
+}
+
+// player has hit the bingo button 
+const bingo = () => {
+    const numberOfCards = $('#hidden-card-number').text();
+    toggleAnimation();
+    let winningCard = false;
+    const drawnNumbers = getPickedNumbers(gameNumbers);
+    for(let card = 0; card < numberOfCards; card++) {
+        if(checkCard(card,drawnNumbers)){
+            winningCard = true;
+            break;
+        }
+    }
+    if(winningCard){
+    console.log('winningCard :', winningCard);
+        displayPrize(".bingo-winning-prize")
+        endGame();
+    } else {
+        toggleAnimation();
+    }
+}
 
 const setUpEvents = () => {
     $('#start-game').on('click', startTheGame);
     $('#winning-line').on('click', winningLine);
+    $('#bingo').on('click', bingo);
     $("#submit-options").on('click',startTheGame);
 }
 
+/// setup the game
 const playBingo = () => {
     
     try {
         const difficulty = $('input[name=difficulty]:checked').val();
-        // setAnimationSpeed(difficulty);
+        setAnimationSpeed(difficulty);
         const numCards = $('#num-cards').val();
-        console.log('numCards  :', numCards );
+        $('#hidden-card-number').text(numCards);
+  
         initialize(numCards);
         setUpEvents();
         gameNumbers = initGameNumbers();
@@ -361,3 +411,18 @@ const playBingo = () => {
     $('#instructions').addClass('hide')
 }
 
+$('document').ready(()=>{
+    if(window.matchMedia('(min-width: 675px)')){
+        $('label[for="cards"]').text("Enter number of cards 1 recommended max 2");
+        $('input[type="number"]').attr("max","2");
+    }
+    if(window.matchMedia('(min-width: 1024px)')){
+        $('label[for="cards"]').text("Enter number of cards 1 - 4");
+        $('input[type="number"]').attr("max","4");
+    }
+    if(window.matchMedia('(min-width: 1300px)')){
+        $('label[for="cards"]').text("Enter number of cards 1 - 6");
+        $('input[type="number"]').attr("max","6");
+    }
+
+});
