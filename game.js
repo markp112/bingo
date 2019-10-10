@@ -62,7 +62,7 @@ const initCard = () => {
 
 // generate a random number between min and max
 const getRandom = (min, max) => {
-    return parseInt(Math.random() * (max - min) + min);
+    return Math.round((Math.random() * (max - min) + min));
 }
 
 // for each column in the players card generate numBlanks blank squares
@@ -73,9 +73,7 @@ const createBlanks = numBlanks => {
     let blanks = [];
     let isComplete = false;
     while (!isComplete) {
-    console.log('isComplete :', isComplete);
-
-        let random = getRandom(0, 18);
+        let random = getRandom(0, 17);
         // only add numbers not already in the array
         if (!blanks.includes(random)) blanks.push(random);
         if (blanks.length === numBlanks) isComplete = true;
@@ -98,13 +96,12 @@ const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
         rand = getRandom(minRange, maxRange);
         console.log('rand :', rand);
     }
+    console.log('exiting rand with', rand)
     return rand;
 }
 
 // createPlayerNumbers fill the card with numbers and blank cells based on the maximum rows and columns
 const createPlayerNumbers = (card, maxRows, maxCols) => {
-console.log('maxRows :', maxRows);
-    
     try {
         let pickedNumbers = [];
         for (let indexCol = 0; indexCol < maxCols; indexCol++) {
@@ -121,7 +118,9 @@ console.log('maxRows :', maxRows);
                     // for column 0 numbers 0-9 for column 2 10-19 etc
                     // therefore: for col ===0 col * 10 = 0 and col * 10 + 9 = 9
                     const startValue = indexCol === 0 ?  1 : indexCol * 10;
+                    console.log("TCL: createPlayerNumbers -> startValue", startValue)
                     const endValue = indexCol === 8? ((indexCol * 10) + 10) : (indexCol * 10) + 9;
+                    console.log("TCL: createPlayerNumbers -> endValue", endValue)
                     const rand = getUniqueRandomNumber(pickedNumbers, startValue, endValue);
                     //record this number as being selected so it is not picked again
                     pickedNumbers.push(rand);
@@ -239,8 +238,6 @@ const initialize = (numberOfCards) => {
     const cols = 9;
     // setup the players card
     if (fillCard(playerCard, rows, cols)) {
-    console.log('playerCard :', playerCard);
-        
         displayCard(numberOfCards);
         putNumbersOnScreenCard(playerCard);
     };
@@ -286,7 +283,6 @@ const toggleAnimation = () => {
 
 //Pick a prize generate a number between 1 and number of prizes in array
 const pickAPrize = (whichPrizeSelection) => {
-    console.log('pickAPrize :');
     let numPrizes;
     switch (whichPrizeSelection) {
         case "winningLine":
@@ -300,7 +296,6 @@ const pickAPrize = (whichPrizeSelection) => {
 
 //put the prize on the screen
 const displayPrize = (whichLine, prize) => {
-    console.log('displayPrize :');
     const imageFolder = "./assets/images/";
     const extension = ".jpg";
     $(whichLine + " img").attr("src", `${imageFolder}${prize}${extension}`);
@@ -313,7 +308,6 @@ const compareArrays = (drawnNumbers, playersMatchedNumbers) => {
     if (playersMatchedNumbers.length === 0 || drawnNumbers.length === 0)  return false;
     let matches = 0;
     playersMatchedNumbers.forEach(num => {
-        console.log(num);
         if (drawnNumbers.includes(num)) matches++;
     })     
     return matches === 0 ? false : matches === playersMatchedNumbers.length; 
@@ -341,7 +335,6 @@ const winningLine = () => {
          // check that the numbers the user has picked are in the drawn numbers and the 
          // user has marked all the numbers in the row.
         if (compareArrays(drawnNumbers, playerMarked) && playerMarked.length === row.filter(cell => !cell.isBlank).length) {
-            console.log("should have a prize")
             const prize = pickAPrize("winningLine");
             displayPrize(".winning-line-prize", prize);
         };
@@ -377,7 +370,6 @@ const bingo = () => {
         }
     }
     if(winningCard){
-    console.log('winningCard :', winningCard);
         displayPrize(".bingo-winning-prize")
         endGame();
     } else {
