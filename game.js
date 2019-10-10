@@ -92,11 +92,8 @@ const getColumnRef = (uniqueNumber, indexCol) => {
 const getUniqueRandomNumber = (pickedNumbers, minRange, maxRange) => {
     let rand = getRandom(minRange, maxRange);
     while (pickedNumbers.includes(rand)) {
-    console.log('pickedNumbers :', pickedNumbers);
         rand = getRandom(minRange, maxRange);
-        console.log('rand :', rand);
     }
-    console.log('exiting rand with', rand)
     return rand;
 }
 
@@ -118,9 +115,7 @@ const createPlayerNumbers = (card, maxRows, maxCols) => {
                     // for column 0 numbers 0-9 for column 2 10-19 etc
                     // therefore: for col ===0 col * 10 = 0 and col * 10 + 9 = 9
                     const startValue = indexCol === 0 ?  1 : indexCol * 10;
-                    console.log("TCL: createPlayerNumbers -> startValue", startValue)
                     const endValue = indexCol === 8? ((indexCol * 10) + 10) : (indexCol * 10) + 9;
-                    console.log("TCL: createPlayerNumbers -> endValue", endValue)
                     const rand = getUniqueRandomNumber(pickedNumbers, startValue, endValue);
                     //record this number as being selected so it is not picked again
                     pickedNumbers.push(rand);
@@ -399,6 +394,7 @@ const playBingo = () => {
 
     } catch (error) {
         console.log(error);
+        throw new Error ("Error -->",error);
     };
     $('#instructions').addClass('hide')
 }
